@@ -6,19 +6,23 @@ void	print_t_pipex(t_pipex t_px)
 	int	m;
 
 	n = 0;
-	printf("file1 = %s\n", t_px.infile);
-	printf("file2 = %s\n", t_px.outfile);
+	printf("infile = %s\n", t_px.infile);
+	printf("outfile = %s\n", t_px.outfile);
 	while (n < t_px.nb_cmd)
 	{
 		m = 0;
-		printf("commande %d = %s\n", n, t_px.cmd[n]);
-		while (m < t_px.nb_arg[n])
+		while (t_px.cmd[n][m])
 		{
-			printf("	arguments %d = %s\n", m, t_px.arg[n][m]);
+			printf("commande %d argument %d = %s\n", n, m, t_px.cmd[n][m]);
 			m++;
 		}
-		printf("	total nombres d'arguments = %d\n", t_px.nb_arg[n]);
 		n++;
 	}
 	printf("total nombre de commande = %d\n", t_px.nb_cmd);
+	n = 0;
+	while (t_px.path[n])
+	{
+		printf("path %d = %s", n, t_px.path[n]);
+		n++;
+	}
 }

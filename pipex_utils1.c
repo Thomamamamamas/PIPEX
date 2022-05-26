@@ -5,34 +5,27 @@ int	handle_error(int res)
 	return (0);
 }
 
-t_pipex	parse_arg(int argc, char **argv)
+t_pipex	parse_arg(int argc, char **argv, char **envp)
 {
 	t_pipex	t_px;
-	char	**tmp;
+	char	*tmp;
 	int		n;
 	int		m;
 	
 	n = 0;
 	t_px.infile = ft_strdup(argv[1]);
 	t_px.outfile = ft_strdup(argv[argc - 1]);
-	t_px.cmd = (char **)malloc(sizeof(char *) * argc - 3);
-	t_px.arg = (char ***)malloc(sizeof(char **) * argc - 3);
-	t_px.nb_arg = (int *)malloc(sizeof(int) * argc - 3);
+	t_px.cmd = (char ***)malloc(sizeof(char **) * argc - 3);
+	while (ft_strstr(envp[n], "PATH=") == 0)
+		n++;
+	tmp = ft_strstr(envp[n], "PATH=");
+	t_px.path = ft_split(tmp, ':');
+	n = 0;
 	while (n < argc - 2)
 	{
 		m = 0;
-		tmp = ft_split(argv[n + 2], ' ');
-		t_px.cmd[n] = ft_strdup(tmp[0]);
-		while (tmp[m])
-			m++;
-		t_px.nb_arg[n] = m - 1;
-		t_px.arg[n] = (char **)malloc(sizeof(char *) * m);
+		t_px.cmd[n] = ft_split(argv[n + 2], ' ');
 		m = 0;
-		while (m < t_px.nb_arg[n])
-		{
-			t_px.arg[n][m] = ft_strdup(tmp[m + 1]);
-			m++;
-		}
 		n++;
 	}
 	t_px.nb_cmd = n - 1;

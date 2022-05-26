@@ -10,10 +10,9 @@ typedef struct s_pipex
 {
 		char	*infile;
 		char	*outfile;
-		char	**cmd;
-		char	***arg;
+		char	**path;
+		char	***cmd;
 		int		nb_cmd;
-		int		*nb_arg;
 }				t_pipex;
 
 //pipex
@@ -23,11 +22,12 @@ int				single_fork(t_pipex *t_px);
 int				multiple_fork(t_pipex *t_px);
 //pipex_utils1
 int				handle_error(int res);
-t_pipex			parse_arg(int argc, char **argv);
+t_pipex			parse_arg(int argc, char **argv, char **envp);
 void			free_t_pipex(t_pipex *t_px);
 //pipex_utils2
 char			*ft_strdup(char *s);
 size_t			ft_strlen(char *s);
+char			*ft_strstr(char *haystack, char *needle);
 //ft_split
 char			**ft_split(char const *s, char c);
 //pipex_debug

@@ -1,0 +1,11 @@
+PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin
+/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin
+/opt/homebrew/bin/wc
+/opt/homebrew/sbin/wc
+/usr/local/bin/wc
+c/wc
+/bin/wc
+/usr/sbin/wc
+/sbin/wc
+/opt/X11/bin/wc
+/Library/Apple/usr/bin/wc

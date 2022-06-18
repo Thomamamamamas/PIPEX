@@ -1,10 +1,5 @@
 #include "pipex.h"
 
-int	handle_error(int res)
-{
-	return (0);
-}
-
 t_pipex	parse_arg(int argc, char **argv, char **envp)
 {
 	t_pipex	t_px;
@@ -18,7 +13,7 @@ t_pipex	parse_arg(int argc, char **argv, char **envp)
 	t_px.cmd = (char ***)malloc(sizeof(char **) * argc - 3);
 	while (ft_strstr(envp[n], "PATH=") == 0)
 		n++;
-	tmp = ft_strstr(envp[n], "PATH=");
+	tmp = ft_substr(envp[n], 5, 1000);
 	t_px.path = ft_split(tmp, ':');
 	n = 0;
 	while (n < argc - 2)
@@ -30,6 +25,7 @@ t_pipex	parse_arg(int argc, char **argv, char **envp)
 	}
 	t_px.nb_cmd = n - 1;
 	print_t_pipex(t_px);
+	free(tmp);
 	return (t_px);
 }
 
@@ -45,4 +41,22 @@ void	free_t_pipex(t_pipex *t_px)
 		free(t_px->cmd[n]);
 		n++;
 	}
+}
+
+char	*get_path(t_pipex *t_px, char **env)
+{
+	int		n;
+	char	*actual_path;
+
+	n = 0;
+	n = 0;
+	while (env[n] != NULL)
+	{
+		actual_path = ft_strjoin(ft_strjoin(env[n], "/"), "wc");
+		if (access(actual_path, F_OK | X_OK) == 0)
+			return (actual_path);
+		free(actual_path);
+		n++;
+	}
+	return (NULL);
 }

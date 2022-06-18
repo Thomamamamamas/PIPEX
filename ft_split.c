@@ -1,87 +1,89 @@
 #include "pipex.h"
 
-static int	numstring(char const *s1, char c)
+int	count_word(char	*str, char c)
 {
-	int	comp;
-	int	cles;
-
-	comp = 0;
-	cles = 0;
-	if (*s1 == '\0')
-		return (0);
-	while (*s1 != '\0')
-	{
-		if (*s1 == c)
-			cles = 0;
-		else if (cles == 0)
-		{
-			cles = 1;
-			comp++;
-		}
-		s1++;
-	}
-	return (comp);
-}
-
-static int	numchar(char const *s2, char c, int i)
-{
-	int	lenght;
-
-	lenght = 0;
-	while (s2[i] != c && s2[i] != '\0')
-	{
-		lenght++;
-		i++;
-	}
-	return (lenght);
-}
-
-char	**freee(char **dst, int j)
-{
-	while (j > 0)
-	{
-		j--;
-		free((void *)dst[j]);
-	}
-	free(dst);
-	return (NULL);
-}
-
-static char	**affect(char const *s, char **dst, char c, int l)
-{
-	int	i;
-	int	j;
-	int	k;
+	size_t	i;
+	int		count;
 
 	i = 0;
-	j = 0;
-	while (s[i] != '\0' && j < l)
+	count = 0;
+	while (str[i])
 	{
-		k = 0;
-		while (s[i] == c)
+		if (str[i] != c)
+		{
+			while (str[i] && str[i] != c)
+				i++;
+			count++;
+		}
+		else
 			i++;
-		dst[j] = (char *)malloc(sizeof(char) * numchar(s, c, i) + 1);
-		if (dst[j] == NULL)
-			return (freee(dst, j));
-		while (s[i] != '\0' && s[i] != c)
-			dst[j][k++] = s[i++];
-		dst[j][k] = '\0';
-		j++;
 	}
-	dst[j] = 0;
-	return (dst);
+	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+int	ft_strlen_c(const char *str, char c)
 {
-	char	**dst;
-	int		l;
+	int	i;
 
-	if (s == NULL)
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}
+
+void	clear_ret(char **ret, int i)
+{
+	while (i >= 0)
+	{
+		free(ret[i]);
+		ret[i] = NULL;
+		i--;
+	}
+	free(ret);
+}
+
+int	ft_split_utils(int tab[5], char *str, char **ret)
+{
+	if (tab[3])
+	{
+		ret[tab[1]] = malloc(sizeof(char) * (tab[3] + 1));
+		if (!ret[tab[1]])
+			return (0);
+		tab[2] = 0;
+		while (tab[2] < tab[3])
+		{
+			ret[tab[1]][tab[2]] = str[tab[0]];
+			tab[0]++;
+			tab[2]++;
+		}
+		ret[tab[1]][tab[2]] = 0;
+		tab[1]++;
+	}
+	else
+		tab[0]++;
+	return (1);
+}
+
+char	**ft_split(char const *str, char c)
+{
+	int		tab[5];
+	char	**ret;
+
+	tab[0] = 0;
+	tab[1] = 0;
+	tab[4] = count_word((char *)str, c);
+	ret = malloc(sizeof(char *) * (tab[4] + 1));
+	if (!ret)
 		return (NULL);
-	l = numstring(s, c);
-	dst = (char **)malloc(sizeof(char *) * (l + 1));
-	if (dst == NULL)
-		return (NULL);
-	return (affect(s, dst, c, l));
+	while (tab[1] < tab[4])
+	{
+		tab[3] = ft_strlen_c(str + tab[0], c);
+		if (!ft_split_utils(tab, (char *)str, ret))
+		{
+			clear_ret(ret, tab[1]);
+			return (NULL);
+		}
+	}
+	ret[tab[1]] = NULL;
+	return (ret);
 }

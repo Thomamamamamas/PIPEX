@@ -20,6 +20,32 @@ char	*ft_strdup(char *s)
 	return (res);
 }
 
+char	*ft_strjoin(char *s1, char *s2)
+{
+	size_t	n;
+	size_t	m;
+	char	*str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
+	n = 0;
+	m = 0;
+	while (s1[m])
+	{
+		str[n++] = s1[m++];
+	}
+	m = 0;
+	while (s2[m])
+	{
+		str[n++] = s2[m++];
+	}
+	str[n] = '\0';
+	return (str);
+}
+
 size_t	ft_strlen(char *s)
 {
 	size_t	n;
@@ -57,4 +83,29 @@ char	*ft_strstr(char *haystack, char *needle)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s) - start < len)
+		len = ft_strlen(s) - start;
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	str = malloc(sizeof(char) * len + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = '\0';
+	return (str);
 }

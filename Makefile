@@ -1,11 +1,8 @@
 NAME	= pipex
 
-SRCS	= pipex.c \
-		pipex_utils1.c \
-		pipex_utils2.c \
-		ft_split.c
+SRCS	= $(wildcard *.c)
 
-OBJS	= ${SRCS:.c=.o}
+OBJS	= $(SRCS:.c=.o)
 
 HEADER	= includes
 
@@ -13,18 +10,19 @@ CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra
 RM		= rm -f
 
+all :		$(NAME)
+
 %.o: %.c
-	${CC} ${CFLAGS} $< -o $@
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-all :		${NAME}
+$(NAME) :	$(OBJS)
+			$(CC) -o $(NAME) $(OBJS)
 
-${NAME} :	${OBJS}
-			${CC} ${OBJS} -o ${NAME}
-
-clean :		${RM} ${OBJS}
+clean :
+			$(RM) $(OBJS)
 
 fclean :	clean
-			${RM} ${NAME}
+			$(RM) $(NAME)
 
 re :		fclean all
 

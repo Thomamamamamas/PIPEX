@@ -23,7 +23,8 @@ int				multiple_fork(t_pipex *t_px, char **envp);
 //pipex_utils1
 t_pipex			parse_arg(int argc, char **argv, char **envp);
 void			free_t_pipex(t_pipex *t_px);
-char			*get_path(t_pipex *t_px, char **env);
+void			free_2d_str(char **str);
+char			*get_path(t_pipex *t_px, char **env, int nb_cmd);
 //pipex_utils2
 char			*ft_strdup(char *s);
 char			*ft_strjoin(char *s1, char *s2);

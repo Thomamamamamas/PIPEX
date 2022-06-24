@@ -1,17 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/24 16:26:30 by tcasale           #+#    #+#             */
+/*   Updated: 2022/06/24 18:02:33 by tcasale          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "pipex.h"
 
 int	first_child_process_exec(t_pipex *t_px, int *fd, char **envp)
 {
-	int		fd_infile;
 	int		n;
 	char	**env;
 	char	*path;
 
 	n = 0;
-	fd_infile = open(t_px->infile, O_RDONLY);
-	if (fd_infile < 0)
-		return (-1);
-	if (dup2(fd_infile, 0) < 0 || dup2(fd[1], 1) < 0)
+	if (dup2(t_px->fd_infile, 0) < 0 || dup2(fd[1], 1) < 0)
 		return (-1);
 	while (ft_strstr(envp[n], "PATH=") == 0)
 		n++;
@@ -25,24 +32,19 @@ int	first_child_process_exec(t_pipex *t_px, int *fd, char **envp)
 	execve(path, t_px->cmd[0], envp);
 	free(path);
 	free_2d_str(env);
-	close(fd_infile);
 	exit(EXIT_FAILURE);
 }
 
 int	parent_process_exec(t_pipex *t_px, int *fd, char **envp)
 {
-	int	fd_outfile;
-	int	n;
-	int	status;
+	int		n;
+	int		status;
 	char	**env;
 	char	*path;
-	
+
 	waitpid(-1, &status, 0);
 	n = 0;
-	fd_outfile = open(t_px->outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (fd_outfile < 0)
-		return (-1);
-	if (dup2(fd[0], 0) < 0 || dup2(fd_outfile , 1) < 0)
+	if (dup2(fd[0], 0) < 0 || dup2(t_px->fd_outfile, 1) < 0)
 		return (-1);
 	while (ft_strstr(envp[n], "PATH=") == 0)
 		n++;
@@ -54,7 +56,6 @@ int	parent_process_exec(t_pipex *t_px, int *fd, char **envp)
 	execve(path, t_px->cmd[t_px->nb_cmd - 1], envp);
 	free_2d_str(env);
 	free(path);
-	close(fd_outfile);
 	exit(EXIT_FAILURE);
 }
 
@@ -105,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 		res = -1;
 	if (res != 0)
 	{
-		perror("Error\n");
+		perror("");
 		return (-1);
 	}
 	return (0);

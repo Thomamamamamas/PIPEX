@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/24 16:26:38 by tcasale           #+#    #+#             */
+/*   Updated: 2022/06/24 18:02:29 by tcasale          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "pipex.h"
 
 t_pipex	parse_arg(int argc, char **argv, char **envp)
@@ -21,8 +32,9 @@ t_pipex	parse_arg(int argc, char **argv, char **envp)
 		n++;
 	}
 	t_px.nb_cmd = n - 1;
+	t_px.fd_infile = open(t_px.infile, O_RDONLY);
+	t_px.fd_outfile = open(t_px.outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	free(tmp);
-	//print_t_pipex(t_px);
 	return (t_px);
 }
 
@@ -58,6 +70,11 @@ char	*get_path(t_pipex *t_px, char **env, int nb_cmd)
 	int		n;
 	char	*actual_path;
 
+	if (t_px->cmd[nb_cmd][0])
+	{
+		if (access(t_px->cmd[nb_cmd][0], F_OK | X_OK) == 0)
+			return (t_px->cmd[nb_cmd][0]);
+	}
 	n = 0;
 	while (env[n] != NULL)
 	{

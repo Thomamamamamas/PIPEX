@@ -50,9 +50,7 @@ int	single_fork(t_pipex *t_px, char **envp)
 		return (1);
 	id = fork();
 	if (id != 0)
-	{
 		res = parent_process_exec(t_px, fd, envp);
-	}
 	else
 		res = first_child_process_exec(t_px, fd, envp);
 	return (res);

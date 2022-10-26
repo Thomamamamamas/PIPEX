@@ -26,6 +26,7 @@ typedef struct s_pipex
 	int		fd_outfile;
 	char	**path;
 	char	***cmd;
+	int		nb_actual_cmd;
 	int		nb_cmd;
 }			t_pipex;
 
@@ -35,6 +36,7 @@ int				parent_process_exec(t_pipex *t_px, int *fd, char **envp);
 int				single_fork(t_pipex *t_px, char **envp);
 //pipex_multi_pipes
 int				multiple_fork(t_pipex *t_px, char **envp);
+int				process_exec_multi(t_pipex *t_px, int n, char **envp);
 //pipex_heredoc
 int				heredoc(t_pipex *t_px, char **envp);
 //parsing
@@ -45,6 +47,9 @@ char			*get_correct_path(t_pipex *t_px, char **env, int nb_cmd);
 //utils
 void			free_t_pipex(t_pipex *t_px);
 void			free_2d_str(char **str);
+//utils_multi_pipes
+void			close_unused(t_pipex *t_px, int i, int *ids, int **fds);
+int				**malloc_2d_array(int col, int line);
 //errors_gestion
 int				check_cmd_file_valid(char *file_name);
 void			error_management(int code);

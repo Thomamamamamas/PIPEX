@@ -19,10 +19,8 @@ void	free_t_pipex(t_pipex *t_px)
 	free(t_px->infile);
 	free(t_px->outfile);
 	while (n < t_px->nb_cmd)
-	{
-		free(t_px->cmd[n]);
-		n++;
-	}
+		free(t_px->cmd[n++]);
+	free(t_px->cmd);
 }
 
 void	free_2d_str(char **str)

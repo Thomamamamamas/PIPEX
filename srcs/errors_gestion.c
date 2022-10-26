@@ -33,7 +33,7 @@ int	check_file_valid(t_pipex *t_px)
 void	error_management(int code)
 {
 	if (code == -1)
-		ft_putstr_fd("Error: Command not found", 2);
+		perror("Error: Command not found");
 	else if (code == -2)
 		perror("");
 	else if (code == -3)

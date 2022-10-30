@@ -33,6 +33,14 @@ t_pipex	parse_arg(int argc, char **argv, char **envp)
 	return (t_px);
 }
 
+void	check_mode(t_pipex *t_px)
+{
+	if (ft_strcmp(t_px->infile, "heredoc") == 0)
+		t_px->is_heredoc = 1;
+	else
+		t_px->is_heredoc = 0;
+}
+
 int	get_file_descriptor(char *file_name, int mode)
 {
 	if (access(file_name, F_OK) == 0)

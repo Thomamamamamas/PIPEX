@@ -19,21 +19,21 @@ int	main(int argc, char **argv, char **envp)
 	if (argc >= 5)
 	{
 		t_px = parse_arg(argc, argv, envp);
+		check_mode(&t_px);
 		res = check_file_valid(&t_px);
 		if (t_px.path[0] == NULL && res == 0)
 			res = -1;
-		else if (ft_strcmp(t_px.infile, "heredoc") == 0)
-			res = heredoc(&t_px, envp);
+		else if (t_px.is_heredoc == 1 && res == 0)
+			res = heredoc_process(&t_px, envp);
 		else if (t_px.nb_cmd > 2 && res == 0)
 			res = multiple_fork(&t_px, envp);
 		else if (t_px.nb_cmd == 2 && res == 0)
 			res = single_fork(&t_px, envp);
 		else if (res == 0)
 			res = -2;
-		free_t_pipex(&t_px);
 	}
 	else
 		res = -3;
-	error_management(res);
-	return (0);
+	end_pipex(&t_px, res);
+	return (res);
 }

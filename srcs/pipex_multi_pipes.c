@@ -3,58 +3,58 @@
 int	multiple_fork(t_pipex *t_px, char **envp)
 {
 	int	n;
-	int	id;
+	int	res;
 	int	*ids;
 	int	**fds;
 
+	res = 1;
+	ids = (int *)malloc(sizeof(int) * t_px->nb_cmd);
+	fds = pipes_2d_fd(t_px);
 	n = 0;
-	ids = (int *)malloc(sizeof(int) * t_px->nb_cmd + 1);
-	fds = malloc_2d_array(2, t_px->nb_cmd);
-	while (n < t_px->nb_cmd)
-		if (pipe(fds[n++]) == -1)
-			return (1);
-	n = 0;
-	while (n < t_px->nb_cmd)
+	while (n < t_px->nb_cmd - 1)
 	{
-		id = fork();
-		if (id == -1)
+		ids[n] = fork();
+		if (ids[n] == -1)
 			return (1);
-		if (id == 0)
-			return (0);
-		ids[n] = id;
-		if (id == ids[0])
+		if (ids[n] == 0)
 		{
-			if (dup2(t_px->fd_infile, 0) < 0 || dup2(fds[n + 1][1], 1) < 0)
-				return (-1);
+			if (wait_subprocesses(t_px, n, fds) == 0)
+				process_exec_multi(t_px, n, fds, envp);
 		}
-		else if (id == ids[t_px->nb_cmd])
-		{
-			if (dup2(fds[t_px->nb_cmd][0], 0) < 0 || dup2(t_px->fd_outfile, 1) < 0)
-				return (-1);
-		}
-		else
-		{
-			if (dup2(fds[n][0], 0) < 0 || dup2(fds[n + 1][1], 1) < 0)
-				return (-1);
-		}
-		process_exec_multi(t_px, n, envp);
 		n++;
 	}
-	return (0);
+	free(ids);
+	res = wait_subprocesses(t_px, n, fds);
+	if (res == 0)
+		res = process_exec_multi(t_px, n, fds, envp);
+	free_2d_int(fds, t_px->nb_cmd + 1);
+	return (res);
 }
 
-int	process_exec_multi(t_pipex *t_px, int n, char **envp)
+int	process_exec_multi(t_pipex *t_px, int n, int **fds, char **envp)
 {
 	char	*path;
+	int		id;
 
-	path = get_correct_path(t_px, get_path_variable(envp), n);
+	close_unused(t_px, n, fds);
+	if (dup_correct_fd(t_px, fds, n) == -1)
+		exit(EXIT_FAILURE);
+	path = get_correct_path(t_px, t_px->path, n);
 	if (path == NULL || check_cmd_file_valid(path) != 0)
 	{
-		error_management(check_cmd_file_valid(path));
 		free(path);
-		return (1);
+		end_close_pipes(t_px, n, fds);
+		if (n == t_px->nb_cmd - 1)
+			return (-7);
+		exit(EXIT_FAILURE);
 	}
-	execve(path, t_px->cmd[n], envp);
+	id = fork();
+	if (id == 0)
+		execve(path, t_px->cmd[n], envp);
+	wait(NULL);
 	free(path);
-	return (0);
+	end_close_pipes(t_px, n, fds);
+	if (n == t_px->nb_cmd - 1)
+		return (0);
+	exit(EXIT_SUCCESS);
 }

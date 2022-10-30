@@ -14,13 +14,24 @@
 void	free_t_pipex(t_pipex *t_px)
 {
 	int	n;
+	int	m;
 
 	n = 0;
+	while (n < t_px->nb_cmd)
+	{
+		m = 0;
+		while (t_px->cmd[n][m] != NULL)
+		{
+			free(t_px->cmd[n][m]);
+			m++;
+		}
+		free(t_px->cmd[n]);
+		n++;
+	}
+	free(t_px->cmd);
 	free(t_px->infile);
 	free(t_px->outfile);
-	while (n < t_px->nb_cmd)
-		free(t_px->cmd[n++]);
-	free(t_px->cmd);
+	free_2d_str(t_px->path);
 }
 
 void	free_2d_str(char **str)
@@ -34,4 +45,17 @@ void	free_2d_str(char **str)
 		n++;
 	}
 	free(str);
+}
+
+void	free_2d_int(int **array, int len)
+{
+	int	n;
+
+	n = 0;
+	while (n < len)
+	{
+		free(array[n]);
+		n++;
+	}
+	free(array);	
 }

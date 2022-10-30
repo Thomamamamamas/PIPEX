@@ -12,10 +12,17 @@
 
 #include "../headers/pipex.h"
 
+void	end_pipex(t_pipex *t_px, int code)
+{
+	if (code != 0)
+		error_management(code);
+	free_t_pipex(t_px);
+}
+
 int	check_cmd_file_valid(char *file_name)
 {
 	if (access(file_name, F_OK) != 0)
-		return (-4);
+		return (-7);
 	if (access(file_name, X_OK) != 0)
 		return (-5);
 	return (0);
@@ -30,16 +37,25 @@ int	check_file_valid(t_pipex *t_px)
 	return (0);
 }
 
-void	error_management(int code)
+int	error_management(int code)
 {
 	if (code == -1)
-		perror("Error: Command not found");
+		ft_putstr_fd("Error: Command not found\n", 2);
 	else if (code == -2)
-		perror("");
+		ft_putstr_fd("", 2);
 	else if (code == -3)
-		perror("Error: To few arguments");
+		ft_putstr_fd("Error: To few arguments\n", 2);
 	else if (code == -4)
-		perror("Error: File doesn't exist");
+		ft_putstr_fd("Error: File doesn't exist\n", 2);
 	else if (code == -5)
-		perror("Error: Permission denied");
+		ft_putstr_fd("Error: Permission denied\n", 2);
+	else if (code == -6)
+		ft_putstr_fd("Error: To much arguments\n", 2);
+	else if (code == -7)
+		ft_putstr_fd("Error: Command not found\n", 2);
+	else if (code == -11)
+		ft_putstr_fd("Error: Pipes doesn't open\n", 2);
+	else if (code == -12)
+		ft_putstr_fd("Error: Dup2 doesn't work\n", 2);
+	return (code);
 }

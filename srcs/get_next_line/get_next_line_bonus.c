@@ -71,15 +71,15 @@ char	*get_next_line(int fd)
 {
 	static char	*save[OPEN_MAX];
 	char		*line;
-	char		buf[BUFFER_SIZE + 1];
+	char		buf[100 + 1];
 	int			bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
+	if (fd < 0 || 100 <= 0 || fd > OPEN_MAX)
 		return (NULL);
 	bytes_read = 1;
 	while (bytes_read && !gnl_ft_strchr(save[fd], '\n'))
 	{
-		bytes_read = read(fd, buf, BUFFER_SIZE);
+		bytes_read = read(fd, buf, 100);
 		if (bytes_read == -1)
 			return (NULL);
 		buf[bytes_read] = 0;

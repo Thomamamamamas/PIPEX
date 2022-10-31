@@ -17,15 +17,12 @@ int	multiple_fork(t_pipex *t_px, char **envp)
 		if (ids[n] == -1)
 			return (1);
 		if (ids[n] == 0)
-		{
 			if (wait_subprocesses(t_px, n, fds) == 0)
 				process_exec_multi(t_px, n, fds, envp);
-		}
 		n++;
 	}
 	free(ids);
-	res = wait_subprocesses(t_px, n, fds);
-	if (res == 0)
+	if (wait_subprocesses(t_px, n, fds) == 0)
 		res = process_exec_multi(t_px, n, fds, envp);
 	free_2d_int(fds, t_px->nb_cmd + 1);
 	return (res);

@@ -35,7 +35,7 @@ t_pipex	parse_arg(int argc, char **argv, char **envp)
 
 void	check_mode(t_pipex *t_px)
 {
-	if (ft_strcmp(t_px->infile, "heredoc") == 0)
+	if (ft_strcmp(t_px->infile, "here_doc") == 0)
 		t_px->is_heredoc = 1;
 	else
 		t_px->is_heredoc = 0;

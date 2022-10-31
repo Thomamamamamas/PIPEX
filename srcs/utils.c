@@ -17,7 +17,7 @@ void	free_t_pipex(t_pipex *t_px)
 	int	m;
 
 	n = 0;
-	while (n < t_px->nb_cmd)
+	while (n < t_px->nb_cmd + 1)
 	{
 		m = 0;
 		while (t_px->cmd[n][m] != NULL)
@@ -39,7 +39,7 @@ void	free_2d_str(char **str)
 	int	n;
 
 	n = 0;
-	while (str[n] == NULL)
+	while (str[n] != NULL)
 	{
 		free(str[n]);
 		n++;

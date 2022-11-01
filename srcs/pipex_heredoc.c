@@ -13,17 +13,35 @@ char  *get_heredoc(t_pipex *t_px)
 	{
 		line = get_next_line(0);
 		if (ft_strcmp(line, ft_strjoin(t_px->cmd[0][0], "\n")) == 0)
+		{
+			free(line);	
+			ft_putstr_fd(res, 2);
 			return (res);
+		}
 		else
 		{
 			tmp = ft_strdup(res);
+			ft_putstr_fd("__________________\n", 2);
+			ft_putstr_fd("TMP:\n", 2);
+			ft_putstr_fd(tmp, 2);
+			ft_putstr_fd("LINE:\n", 2);
+			ft_putstr_fd(line, 2);
+			ft_putstr_fd("TRES:\n", 2);
+			ft_putstr_fd(res, 2);
 			free(res);
-			res = (char *)malloc(sizeof(char) * ft_strlen(tmp) + ft_strlen(line) + 1);
+			res = (char *)malloc(sizeof(char) * ft_strlen(tmp) + 1 + ft_strlen(line) + 1);
 			res = ft_strcat(res, tmp);
-			res = ft_strcat(res, line);
+			ft_putstr_fd("MRES1:\n", 2);
+			ft_putstr_fd(res, 2);
 			free(tmp);
+			res = ft_strcat(res, line);
+			ft_putstr_fd("MRES2:\n", 2);
+			ft_putstr_fd(res, 2);
+			free(line);
+			ft_putstr_fd("RES:\n", 2);
+			ft_putstr_fd(res, 2);
+			ft_putstr_fd("__________________\n", 2);
 		}
-		free(line);
 	}
 }
 
@@ -45,11 +63,8 @@ int	heredoc_child_process_exec(t_pipex *t_px, int **fds, char **envp)
 	}
 	id = fork();
 	if (id == 0)
-	{
 		execve(path, t_px->cmd[1], envp);
-	}
 	wait(NULL);
-	ft_putstr_fd("pute", 2);
 	heredoc_end_close_pipes(t_px, 1, fds);
 	free(path);
 	exit(EXIT_SUCCESS);
@@ -93,6 +108,7 @@ int	heredoc_process(t_pipex *t_px, char **envp)
 
 	fds = heredoc_pipes_2d_fd();
 	heredoc_value = get_heredoc(t_px);
+			ft_putstr_fd(heredoc_value, 2);
 	id = fork();
 	id2 = 0;
 	if (id != 0)

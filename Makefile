@@ -1,14 +1,31 @@
-NAME	= pipex
+NAME		= pipex
 
-SRCS	= $(wildcard srcs/*.c)
+SRCS		= srcs/main.c \
+				srcs/pipex.c \
+				srcs/errors_gestion.c \
+				srcs/parsing.c \
+				srcs/utils.c
 
-OBJS	= $(SRCS:.c=.o)
+SRCS_BONUS	= srcs/main_bonus.c \
+				srcs/pipex.c \
+				srcs/pipex_multi_pipes.c \
+				srcs/pipex_heredoc.c \
+				srcs/errors_gestion.c \
+				srcs/parsing_bonus.c \
+				srcs/parsing.c \
+				srcs/utils_multi_pipes.c \
+				srcs/utils2_multi_pipes.c \
+				srcs/utils.c
 
-HEADER	= includes
+OBJS		= $(SRCS:.c=.o)
 
-CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
-RM		= rm -f
+OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
+
+HEADER		= includes
+
+CC			= gcc
+CFLAGS		= -Wall -Werror -Wextra
+RM			= rm -f
 
 all :		$(NAME)
 
@@ -17,6 +34,9 @@ all :		$(NAME)
 
 $(NAME) :	$(OBJS) libftprintf get_next_line
 			$(CC) $(OBJS) ./srcs/libftprintf/libftprintf.a ./srcs/get_next_line/get_next_line.a -o $(NAME)
+
+bonus:		$(OBJS_BONUS) libftprintf get_next_line
+			$(CC) $(OBJS_BONUS) ./srcs/libftprintf/libftprintf.a ./srcs/get_next_line/get_next_line.a -o $(NAME)
 
 libftprintf:
 		$(MAKE) -C ./srcs/libftprintf
@@ -30,6 +50,7 @@ clean :
 		$(MAKE) -C ./srcs/libftprintf $@
 		$(MAKE) -C ./srcs/get_next_line $@
 		$(RM) $(OBJS)
+		$(RM) $(OBJS_BONUS)
 
 fclean :	clean
 	$(MAKE) -C ./srcs/libftprintf $@
@@ -38,4 +59,4 @@ fclean :	clean
 
 re :		fclean all
 
-.PHONY :	all clean fclean re libftprintf get_next_line
+.PHONY :	all bonus clean fclean re libftprintf get_next_line

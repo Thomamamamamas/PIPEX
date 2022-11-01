@@ -57,6 +57,10 @@ void			print_fd_state_multi_pipe(t_pipex *t_px, int **fds);
 //pipex_multi_pipes
 int				multiple_fork(t_pipex *t_px, char **envp);
 int				process_exec_multi(t_pipex *t_px, int n, int **fds, char **envp);
+//parsing_bonus
+t_pipex			parse_arg_bonus(int argc, char **argv, char **envp);
+int				get_file_descriptor_bonus(char *file_name, int mode);
+int				check_file_valid_bonus(t_pipex *t_px);
 //pipex_heredoc
 char			*get_heredoc(t_pipex *t_px);
 int				heredoc_child_process_exec(t_pipex *t_px, int **fds, char **envp);

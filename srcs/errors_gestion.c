@@ -30,7 +30,7 @@ int	check_cmd_file_valid(char *file_name)
 
 int	check_file_valid(t_pipex *t_px)
 {
-	if ((t_px->fd_infile < 0  && ft_strcmp(t_px->infile, "heredoc") != 0))
+	if (t_px->fd_infile < 0)
 		return (-5);
 	else if (t_px->fd_outfile < 0)
 		return (-5);
@@ -57,5 +57,7 @@ int	error_management(int code)
 		ft_putstr_fd("Error: Pipes doesn't open\n", 2);
 	else if (code == -12)
 		ft_putstr_fd("Error: Dup2 doesn't work\n", 2);
+	else if (code == -15)
+		ft_putstr_fd("Error: To much arguments\n", 2);
 	return (code);
 }

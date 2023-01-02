@@ -32,5 +32,6 @@ int	main(int argc, char **argv, char **envp)
 	else
 		res = -15;
 	end_pipex(&t_px, res);
+	system("leaks pipex");
 	return (res);
 }

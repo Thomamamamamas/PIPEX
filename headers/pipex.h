@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 16:27:07 by tcasale           #+#    #+#             */
-/*   Updated: 2022/09/22 13:27:34 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/04 13:07:32 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -56,16 +56,11 @@ void			print_fd_state_multi_pipe(t_pipex *t_px, int **fds);
 //BONUS
 //pipex_multi_pipes
 int				multiple_fork(t_pipex *t_px, char **envp);
-int				process_exec_multi(t_pipex *t_px, int n, int **fds, char **envp);
+int				process_multi(t_pipex *t_px, int n, int **fds, char **envp);
 //parsing_bonus
 t_pipex			parse_arg_bonus(int argc, char **argv, char **envp);
 int				get_file_descriptor_bonus(char *file_name, int mode);
 int				check_file_valid_bonus(t_pipex *t_px);
-//pipex_heredoc
-char			*get_heredoc(t_pipex *t_px);
-int				heredoc_child_process_exec(t_pipex *t_px, int **fds, char **envp);
-int				heredoc_parent_process_exec(t_pipex *t_px, int **fds, char **envp);
-int				heredoc_process(t_pipex *t_px, char **envp);
 //utils_multi_pipes
 void			close_unused(t_pipex *t_px, int i, int **fds);
 void			end_close_pipes(t_pipex *t_px, int n, int **fds);

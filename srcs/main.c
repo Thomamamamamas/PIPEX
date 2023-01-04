@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 16:26:30 by tcasale           #+#    #+#             */
-/*   Updated: 2022/10/25 14:20:13 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/04 12:29:03 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../headers/pipex.h"
@@ -32,6 +32,5 @@ int	main(int argc, char **argv, char **envp)
 	else
 		res = -15;
 	end_pipex(&t_px, res);
-	system("leaks pipex");
 	return (res);
 }

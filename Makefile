@@ -9,7 +9,6 @@ SRCS		= srcs/main.c \
 SRCS_BONUS	= srcs/main_bonus.c \
 				srcs/pipex.c \
 				srcs/pipex_multi_pipes.c \
-				srcs/pipex_heredoc.c \
 				srcs/errors_gestion.c \
 				srcs/parsing_bonus.c \
 				srcs/parsing.c \

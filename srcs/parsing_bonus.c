@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 12:12:15 by tcasale           #+#    #+#             */
+/*   Updated: 2023/01/04 12:19:44 by tcasale          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../headers/pipex.h"
 
 t_pipex	parse_arg_bonus(int argc, char **argv, char **envp)
@@ -23,9 +34,7 @@ t_pipex	parse_arg_bonus(int argc, char **argv, char **envp)
 
 int	get_file_descriptor_bonus(char *file_name, int mode)
 {
-	if (ft_strcmp(file_name, "here_doc") == 0)
-		return (0);
-	else if (access(file_name, F_OK) == 0)
+	if (access(file_name, F_OK) == 0)
 	{
 		if (mode == 0)
 		{
@@ -40,7 +49,7 @@ int	get_file_descriptor_bonus(char *file_name, int mode)
 
 int	check_file_valid_bonus(t_pipex *t_px)
 {
-	if ((t_px->fd_infile < 0  && ft_strcmp(t_px->infile, "here_doc") != 0))
+	if ((t_px->fd_infile < 0))
 		return (-5);
 	else if (t_px->fd_outfile < 0)
 		return (-5);

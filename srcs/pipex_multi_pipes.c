@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_multi_pipes.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 12:14:03 by tcasale           #+#    #+#             */
+/*   Updated: 2023/01/04 12:25:27 by tcasale          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../headers/pipex.h"
 
 int	multiple_fork(t_pipex *t_px, char **envp)
@@ -18,17 +29,17 @@ int	multiple_fork(t_pipex *t_px, char **envp)
 			return (1);
 		if (ids[n] == 0)
 			if (wait_subprocesses(t_px, n, fds) == 0)
-				process_exec_multi(t_px, n, fds, envp);
+				process_multi(t_px, n, fds, envp);
 		n++;
 	}
 	free(ids);
 	if (wait_subprocesses(t_px, n, fds) == 0)
-		res = process_exec_multi(t_px, n, fds, envp);
+		res = process_multi(t_px, n, fds, envp);
 	free_2d_int(fds, t_px->nb_cmd + 1);
 	return (res);
 }
 
-int	process_exec_multi(t_pipex *t_px, int n, int **fds, char **envp)
+int	process_multi(t_pipex *t_px, int n, int **fds, char **envp)
 {
 	char	*path;
 	int		id;

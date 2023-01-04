@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:16:55 by tcasale           #+#    #+#             */
-/*   Updated: 2022/10/25 14:18:54 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/04 13:00:02 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ int	get_file_descriptor(char *file_name, int mode)
 		else
 			return (open(file_name, O_RDWR | O_TRUNC));
 	}
-	else
-		return (open(file_name, O_CREAT | O_RDWR, 0644));
+	return (-1);
 }
 
 char	**get_path_variable(char **envp)
 {
 	int		n;
-	char	**tmp;
+	char	*tmp;
+	char	**res;
 
 	n = 0;
 	while (envp[n] && ft_strnstr(envp[n], "PATH=", ft_strlen(envp[n])) == 0)
@@ -65,16 +65,22 @@ char	**get_path_variable(char **envp)
 	if (envp[n] != NULL)
 	{
 		if (ft_strnstr(envp[n], "PATH=", ft_strlen(envp[n])) != 0)
-			return (ft_split(ft_substr(envp[n], 5, 500), ':'));
+		{
+			tmp = ft_substr(envp[n], 5, 500);
+			res = ft_split(tmp, ':');
+			free(tmp);
+			return (res);
+		}
 	}
-	tmp = (char **)malloc(sizeof(char *) * 1);
-	tmp[0] = NULL;
-	return (tmp);
+	res = (char **)malloc(sizeof(char *) * 1);
+	res[0] = NULL;
+	return (res);
 }
 
 char	*get_correct_path(t_pipex *t_px, char **env, int nb_cmd)
 {
 	int		n;
+	char	*tmp;
 	char	*actual_path;
 
 	if (t_px->cmd[nb_cmd][0])
@@ -85,7 +91,9 @@ char	*get_correct_path(t_pipex *t_px, char **env, int nb_cmd)
 	n = 0;
 	while (env[n] != NULL)
 	{
-		actual_path = ft_strjoin(ft_strjoin(env[n], "/"), t_px->cmd[nb_cmd][0]);
+		tmp = ft_strjoin(env[n], "/");
+		actual_path = ft_strjoin(tmp, t_px->cmd[nb_cmd][0]);
+		free(tmp);
 		if (access(actual_path, F_OK | X_OK) == 0)
 			return (actual_path);
 		free(actual_path);

@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 16:26:38 by tcasale           #+#    #+#             */
-/*   Updated: 2022/09/22 13:27:29 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/04 12:17:44 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../headers/pipex.h"
@@ -60,5 +60,5 @@ void	free_2d_int(int **array, int len)
 		free(array[n]);
 		n++;
 	}
-	free(array);	
+	free(array);
 }

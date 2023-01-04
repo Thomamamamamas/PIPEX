@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2_multi_pipes.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/04 12:14:39 by tcasale           #+#    #+#             */
+/*   Updated: 2023/01/04 12:15:26 by tcasale          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../headers/pipex.h"
 
 int	**pipes_2d_fd(t_pipex *t_px)
@@ -13,7 +24,7 @@ int	**pipes_2d_fd(t_pipex *t_px)
 	return (fds);
 }
 
-int	**heredoc_pipes_2d_fd()
+int	**heredoc_pipes_2d_fd(void )
 {
 	int	n;
 	int	**fds;
@@ -23,7 +34,7 @@ int	**heredoc_pipes_2d_fd()
 	while (n < 2 + 1)
 		if (pipe(fds[n++]) == -1)
 			error_management(-11);
-	return (fds);	
+	return (fds);
 }
 
 void	heredoc_close_unused(t_pipex *t_px, int i, int **fds)

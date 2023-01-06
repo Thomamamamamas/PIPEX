@@ -6,31 +6,29 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:16:55 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/04 13:08:42 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/06 15:27:36 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/pipex.h"
 
-t_pipex	parse_arg(int argc, char **argv, char **envp)
+void	parse_arg(t_pipex *t_px, int argc, char **argv, char **envp)
 {
-	t_pipex	t_px;
 	int		n;
 
 	n = 0;
-	t_px.infile = ft_strdup(argv[1]);
-	t_px.outfile = ft_strdup(argv[argc - 1]);
-	t_px.cmd = (char ***)malloc(sizeof(char **) * argc - 3);
-	t_px.path = get_path_variable(envp);
+	t_px->infile = ft_strdup(argv[1]);
+	t_px->outfile = ft_strdup(argv[argc - 1]);
+	t_px->cmd = (char ***)malloc(sizeof(char **) * argc - 3);
+	t_px->path = get_path_variable(envp);
 	while (n < argc - 2)
 	{
-		t_px.cmd[n] = ft_split(argv[n + 2], ' ');
+		t_px->cmd[n] = ft_split(argv[n + 2], ' ');
 		n++;
 	}
-	t_px.nb_cmd = n - 1;
-	t_px.fd_infile = get_file_descriptor(t_px.infile, 0);
-	t_px.fd_outfile = get_file_descriptor(t_px.outfile, 1);
-	return (t_px);
+	t_px->nb_cmd = n - 1;
+	t_px->fd_infile = get_file_descriptor(t_px, t_px->infile, 0);
+	t_px->fd_outfile = get_file_descriptor(t_px, t_px->outfile, 1);
 }
 
 void	check_mode(t_pipex *t_px)
@@ -41,7 +39,7 @@ void	check_mode(t_pipex *t_px)
 		t_px->is_heredoc = 0;
 }
 
-int	get_file_descriptor(char *file_name, int mode)
+int	get_file_descriptor(t_pipex *t_px, char *file_name, int mode)
 {
 	if (access(file_name, F_OK) == 0)
 	{
@@ -50,7 +48,13 @@ int	get_file_descriptor(char *file_name, int mode)
 		else
 			return (open(file_name, O_RDWR | O_TRUNC));
 	}
-	return (-1);
+	if (mode == 0)
+	{
+		t_px->no_infile = 1;
+		return (open(file_name, O_CREAT | O_RDONLY, 0644));
+	}
+	else
+		return (open(file_name, O_CREAT | O_RDWR, 0644));
 }
 
 char	**get_path_variable(char **envp)

@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:13:16 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/04 12:13:18 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/06 15:34:27 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../headers/pipex.h"
@@ -44,10 +44,12 @@ int	parent_process_exec(t_pipex *t_px, int *fd, char **envp)
 	char	*path;
 
 	res = 0;
+	if (t_px->no_infile == 1)
+		return(-4);
 	close(fd[1]);
 	close(t_px->fd_infile);
 	if (dup2(fd[0], 0) < 0 || dup2(t_px->fd_outfile, 1) < 0)
-		return (error_management(-12));
+		return (-12);
 	path = get_correct_path(t_px, t_px->path, t_px->nb_cmd - 1);
 	if (path == NULL || check_cmd_file_valid(path) != 0)
 	{

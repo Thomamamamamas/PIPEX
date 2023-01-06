@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:34:47 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/04 13:08:45 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/06 15:28:16 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_cmd_file_valid(char *file_name)
 
 int	check_file_valid(t_pipex *t_px)
 {
-	if (t_px->fd_infile < 0)
+	if (t_px->fd_infile < 0 && t_px->no_infile != 1)
 		return (-5);
 	else if (t_px->fd_outfile < 0)
 		return (-5);

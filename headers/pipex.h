@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 16:27:07 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/04 13:07:32 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/06 15:22:24 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -29,6 +29,7 @@ typedef struct s_pipex
 	char	***cmd;
 	int		nb_cmd;
 	int		is_heredoc;
+	int		no_infile;
 }			t_pipex;
 
 //pipex
@@ -36,9 +37,9 @@ void			first_child_process_exec(t_pipex *t_px, int *fd, char **envp);
 int				parent_process_exec(t_pipex *t_px, int *fd, char **envp);
 int				single_fork(t_pipex *t_px, char **envp);
 //parsing
-t_pipex			parse_arg(int argc, char **argv, char **envp);
+void			parse_arg(t_pipex *t_px, int argc, char **argv, char **envp);
 void			check_mode(t_pipex *t_px);
-int				get_file_descriptor(char *file_name, int mode);
+int				get_file_descriptor(t_pipex *t_px, char *file_name, int mode);
 char			**get_path_variable(char **envp);
 char			*get_correct_path(t_pipex *t_px, char **env, int nb_cmd);
 //utils

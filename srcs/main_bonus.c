@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:10:45 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/04 12:28:21 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/09 12:57:38 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../headers/pipex.h"
@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc >= 5)
 	{
-		t_px = parse_arg_bonus(argc, argv, envp);
+		parse_arg_bonus(&t_px, argc, argv, envp);
 		check_mode(&t_px);
 		res = check_file_valid_bonus(&t_px);
 		if (t_px.path[0] == NULL && res == 0)

@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 16:26:38 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/04 12:17:44 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/09 15:04:48 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../headers/pipex.h"
@@ -19,11 +19,13 @@ void	free_t_pipex(t_pipex *t_px)
 	n = 0;
 	if (t_px->nb_cmd != 0)
 	{
-		while (n < t_px->nb_cmd + 1)
+		while (n < t_px->nb_cmd)
 		{
 			m = 0;
 			while (t_px->cmd[n][m] != NULL)
 			{
+				ft_putstr_fd(t_px->cmd[n][m], 2);
+				ft_putstr_fd("\n", 2);
 				free(t_px->cmd[n][m]);
 				m++;
 			}

@@ -6,18 +6,20 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:13:16 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/06 15:40:02 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/09 14:10:46 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../headers/pipex.h"
 
-void	first_child_process_exec(t_pipex *t_px, int *fd, char **envp)
+int	first_child_process_exec(t_pipex *t_px, int *fd, char **envp)
 {
 	int		id;
 	char	*path;
 
 	close(fd[0]);
 	close(t_px->fd_outfile);
+	if (t_px->no_infile == 1)
+		return(error_management(-4));
 	if (dup2(t_px->fd_infile, 0) < 0 || dup2(fd[1], 1) < 0)
 		exit(error_management(-12));
 	path = get_correct_path(t_px, t_px->path, 0);
@@ -44,8 +46,6 @@ int	parent_process_exec(t_pipex *t_px, int *fd, char **envp)
 	char	*path;
 
 	res = 0;
-	if (t_px->no_infile == 1)
-		return(-4);
 	close(fd[1]);
 	close(t_px->fd_infile);
 	if (dup2(fd[0], 0) < 0 || dup2(t_px->fd_outfile, 1) < 0)
@@ -54,6 +54,8 @@ int	parent_process_exec(t_pipex *t_px, int *fd, char **envp)
 	if (path == NULL || check_cmd_file_valid(path) != 0)
 	{
 		res = check_cmd_file_valid(path);
+	ft_putstr_fd(path, 2);
+	ft_putstr_fd("\n", 2);
 		free(path);
 		return (res);
 	}

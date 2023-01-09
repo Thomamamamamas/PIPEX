@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:16:55 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/06 15:40:04 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/09 15:06:50 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,14 @@ void	parse_arg(t_pipex *t_px, int argc, char **argv, char **envp)
 	t_px->outfile = ft_strdup(argv[argc - 1]);
 	t_px->cmd = (char ***)malloc(sizeof(char **) * argc - 3);
 	t_px->path = get_path_variable(envp);
-	while (n < argc - 2)
+	while (n < argc - 3)
 	{
 		t_px->cmd[n] = ft_split(argv[n + 2], ' ');
 		n++;
 	}
-	t_px->nb_cmd = n - 1;
+	t_px->nb_cmd = n;
 	t_px->fd_infile = get_file_descriptor(t_px, t_px->infile, 0);
 	t_px->fd_outfile = get_file_descriptor(t_px, t_px->outfile, 1);
-}
-
-void	check_mode(t_pipex *t_px)
-{
-	if (ft_strcmp(t_px->infile, "here_doc") == 0)
-		t_px->is_heredoc = 1;
-	else
-		t_px->is_heredoc = 0;
 }
 
 int	get_file_descriptor(t_pipex *t_px, char *file_name, int mode)

@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 16:27:07 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/10 13:20:42 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/17 11:02:05 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -50,9 +50,6 @@ void	end_pipex(t_pipex *t_px, int code);
 int		check_cmd_file_valid(char *file_name);
 int		error_management(int code);
 int		check_file_valid(t_pipex *t_px);
-//pipex_debug
-void	print_t_pipex(t_pipex *t_px);
-void	print_fd_state_multi_pipe(t_pipex *t_px, int **fds);
 //BONUS
 //pipex_multi_pipes
 int		multiple_fork(t_pipex *t_px, char **envp);

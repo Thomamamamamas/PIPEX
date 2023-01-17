@@ -6,7 +6,7 @@
 /*   By: tcasale <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:13:16 by tcasale           #+#    #+#             */
-/*   Updated: 2023/01/10 13:10:11 by tcasale          ###   ########.fr       */
+/*   Updated: 2023/01/17 12:18:57 by tcasale          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../headers/pipex.h"
@@ -57,6 +57,7 @@ int	parent_process_exec(t_pipex *t_px, int *fd, char **envp)
 	id = fork();
 	if (id == 0)
 		execve(path, t_px->cmd[t_px->nb_cmd - 1], envp);
+	free(path);
 	wait(NULL);
 	close(fd[0]);
 	close(t_px->fd_outfile);

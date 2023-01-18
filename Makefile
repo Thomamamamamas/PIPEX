@@ -31,19 +31,17 @@ all :		$(NAME)
 %.o: %.c
 	$(CC) $(CFLAGS) -I.srcs/libftprintf/libftprintf.a -I.srcs/get_next_line/get_next_line.a -c $< -o $@
 
-$(NAME) :	$(OBJS) libftprintf get_next_line
+$(NAME) :	$(OBJS) ./srcs/libftprintf/libftprintf.a ./srcs/get_next_line/get_next_line.a
 			$(CC) $(OBJS) ./srcs/libftprintf/libftprintf.a ./srcs/get_next_line/get_next_line.a -o $(NAME)
 
-bonus:		$(OBJS_BONUS) libftprintf get_next_line
+bonus:		$(OBJS_BONUS) ./srcs/libftprintf/libftprintf.a ./srcs/get_next_line/get_next_line.a
 			$(CC) $(OBJS_BONUS) ./srcs/libftprintf/libftprintf.a ./srcs/get_next_line/get_next_line.a -o $(NAME)
 
-libftprintf:
+./srcs/libftprintf/libftprintf.a:
 		$(MAKE) -C ./srcs/libftprintf
-		cp srcs/libftprintf/libftprintf.a $(NAME)
 
-get_next_line:
+./srcs/get_next_line/get_next_line.a:
 		$(MAKE) -C ./srcs/get_next_line
-		cp srcs/get_next_line/get_next_line.a $(NAME)
 
 clean :
 		$(MAKE) -C ./srcs/libftprintf $@
@@ -58,4 +56,4 @@ fclean :	clean
 
 re :		fclean all
 
-.PHONY :	all bonus clean fclean re libftprintf get_next_line
+.PHONY :	all bonus clean fclean re
